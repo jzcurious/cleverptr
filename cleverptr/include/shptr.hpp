@@ -4,15 +4,18 @@
 #include "block.hpp"
 
 namespace cleverptr {
+
 template <class T>
 struct ShPtr final {
  private:
   detail::Block<T>* _block;
 
- public:
   ShPtr(detail::Block<T>* block)
-      : _block(block) {}
+      : _block(block) {
+    _block->counter++;
+  }
 
+ public:
   ShPtr(const ShPtr& ptr)
       : _block(ptr._block) {
     _block->counter++;
@@ -45,7 +48,7 @@ struct ShPtr final {
         _block->counter--;
     }
     _block = ptr._block;
-    ptr.block = nullptr;
+    ptr._block = nullptr;
     return *this;
   }
 
@@ -58,6 +61,7 @@ struct ShPtr final {
   }
 
   operator T*() {
+    if (_block == nullptr) return nullptr;
     return &_block->object;
   }
 
@@ -78,11 +82,16 @@ struct ShPtr final {
       _block->counter--;
     }
   }
+
+  template <class... Ts>
+  static ShPtr make(Ts&&... args) {
+    return ShPtr(new detail::Block<T>(std::forward<Ts>(args)...));
+  }
 };
 
 template <class T, class... Ts>
 auto make_shared(Ts&&... args) {
-  return ShPtr(new detail::Block<T>(std::forward<Ts>(args)...));
+  return ShPtr<T>::make(std::forward<Ts>(args)...);
 }
 
 }  // namespace cleverptr

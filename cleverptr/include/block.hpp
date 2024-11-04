@@ -12,7 +12,7 @@ struct Block final {
 
   template <class... Ts>
   Block(Ts&&... args)
-      : counter(1)
+      : counter(0)
       , object(std::forward<Ts>(args)...) {}
 };
 

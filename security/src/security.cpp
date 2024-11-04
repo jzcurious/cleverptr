@@ -1,9 +1,11 @@
 #include "shptr.hpp"
+#include "uniptr.hpp"
+
 #include <vector>
 
-using namespace shptr;
+using namespace cleverptr;
 
-void case_copy_ctor() {
+void shared_copy_ctor() {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = ptr1;
   auto ptr3 = ptr2;
@@ -12,7 +14,13 @@ void case_copy_ctor() {
   auto ptr6 = ptr1;
 }
 
-void case_assign() {
+void shared_move_ctor() {
+  auto ptr1 = make_shared<std::vector<int>>(10);
+  auto ptr2 = std::move(ptr1);
+  auto ptr3 = std::move(ptr2);
+}
+
+void shared_assign() {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = make_shared<std::vector<int>>(10);
   auto ptr3 = ptr1;
@@ -25,7 +33,23 @@ void case_assign() {
   ptr6 = ptr2;
 }
 
+void unique_move_ctor() {
+  auto ptr1 = make_unique<std::vector<int>>(10);
+  auto ptr2 = std::move(ptr1);
+  auto ptr3 = std::move(ptr2);
+}
+
+void unique_move() {
+  auto ptr1 = make_unique<std::vector<int>>(10);
+  auto ptr2 = make_unique<std::vector<int>>(10);
+  ptr1 = std::move(ptr2);
+}
+
 int main() {
-  case_copy_ctor();
-  case_assign();
+  shared_copy_ctor();
+  shared_move_ctor();
+  shared_assign();
+
+  unique_move_ctor();
+  unique_move();
 }
