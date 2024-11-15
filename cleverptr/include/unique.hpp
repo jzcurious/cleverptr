@@ -42,7 +42,7 @@ struct unique_ptr final {
   }
 
   operator T*() const {
-    if (_block == nullptr) return nullptr;
+    if (not _block) return nullptr;
     return &_block->object;
   }
 

@@ -13,10 +13,10 @@ struct weak_ptr final {
   detail::Block<T>* _block;
 
   void _release_block() const {
-    if (_block == nullptr) return;
+    if (not _block) return;
     _block->weak_counter--;
     if (_block->shared_counter) return;
-    if (_block->weak_counter == 0) delete _block;
+    if (not _block->weak_counter) delete _block;
   }
 
  public:
@@ -64,7 +64,7 @@ struct weak_ptr final {
   }
 
   bool expired() const {
-    return _block->shared_counter == 0;
+    return not _block->shared_counter;
   }
 
   shared_ptr<T> lock() const {
