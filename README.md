@@ -41,15 +41,15 @@ Weak:
 
 Unique:
 
-| Benchmark                    | Time     | CPU      | Iterations |
-| ---------------------------- | -------- | -------- | ---------- |
-| unique_std_swap_mean         | 1.60 ns  | 1.59 ns  | 4          |
-| unique_std_swap_median       | 1.60 ns  | 1.59 ns  | 4          |
-| unique_std_swap_stddev       | 0.005 ns | 0.004 ns | 4          |
-| unique_std_swap_cv           | 0.31 %   | 0.27 %   | 4          |
-| unique_cleverptr_swap_mean   | 1.61 ns  | 1.60 ns  | 4          |
-| unique_cleverptr_swap_median | 1.61 ns  | 1.60 ns  | 4          |
-| unique_cleverptr_swap_stddev | 0.016 ns | 0.014 ns | 4          |
-| unique_cleverptr_swap_cv     | 0.97 %   | 0.90 %   | 4          |
+Benchmark                       |      Time      |       CPU |  Iterations
+--------------------------------|----------------|-----------|------------
+unique_std_swap_mean            |   1.62 ns      |   1.61 ns |           4
+unique_std_swap_median          |   1.62 ns      |   1.61 ns |           4
+unique_std_swap_stddev          |  0.015 ns      |  0.015 ns |           4
+unique_std_swap_cv              |   0.94 %       |   0.95 %  |           4
+unique_cleverptr_swap_mean      |   1.37 ns      |   1.36 ns |           4
+unique_cleverptr_swap_median    |   1.37 ns      |   1.36 ns |           4
+unique_cleverptr_swap_stddev    |  0.003 ns      |  0.003 ns |           4
+unique_cleverptr_swap_cv        |   0.19 %       |   0.19 %  |           4
 
 _(see benchmarks.cpp)_
