@@ -75,7 +75,7 @@ struct shared_ptr final {
   }
 
   bool operator!=(const shared_ptr& ptr) const {
-    return not(*this == ptr);
+    return ptr._block != _block;
   }
 
   ~shared_ptr() {
