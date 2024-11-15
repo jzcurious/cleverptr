@@ -68,7 +68,7 @@ struct weak_ptr final {
   }
 
   const shared_ptr<T> lock() const {
-    if (expired()) return *_sptr;
+    if (not expired()) return *_sptr;
     return shared_ptr<T>(_block);
   }
 

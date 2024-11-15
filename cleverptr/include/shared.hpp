@@ -24,10 +24,7 @@ struct shared_ptr final {
       _block->shared_counter--;
       return;
     }
-    if (_block->weak_counter == 0) {
-      delete _block;
-      return;
-    }
+    if (_block->weak_counter == 0) delete _block;
   }
 
  public:
