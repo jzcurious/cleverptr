@@ -7,12 +7,14 @@ namespace cleverptr::detail {
 
 template <class T>
 struct Block final {
-  std::size_t counter;
+  std::size_t shared_counter;
+  std::size_t weak_counter;
   T object;
 
   template <class... Ts>
   Block(Ts&&... args)
-      : counter(0)
+      : shared_counter(0)
+      , weak_counter(0)
       , object(std::forward<Ts>(args)...) {}
 };
 

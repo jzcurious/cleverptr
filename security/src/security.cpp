@@ -1,5 +1,6 @@
 #include "shptr.hpp"
 #include "uniptr.hpp"
+#include "wptr.hpp"
 
 #include <vector>
 
@@ -45,6 +46,23 @@ void unique_move() {
   ptr1 = std::move(ptr2);
 }
 
+void wptr_copy_ctor() {
+  auto ptr1 = make_shared<std::vector<int>>(10);
+  auto ptr2 = WPtr(ptr1);
+  auto ptr3 = WPtr(ptr2);
+}
+
+void wptr_move_ctor() {
+  auto ptr1 = make_shared<std::vector<int>>(10);
+  auto ptr2 = WPtr(ptr1);
+  auto ptr3 = WPtr(std::move(ptr2));
+}
+
+void wptr_ctor_from_shared() {
+  auto ptr1 = make_shared<std::vector<int>>(10);
+  auto ptr2 = WPtr(ptr1);
+}
+
 int main() {
   shared_copy_ctor();
   shared_move_ctor();
@@ -52,4 +70,8 @@ int main() {
 
   unique_move_ctor();
   unique_move();
+
+  wptr_copy_ctor();
+  wptr_move_ctor();
+  wptr_ctor_from_shared();
 }

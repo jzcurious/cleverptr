@@ -1,5 +1,6 @@
 #include "shptr.hpp"
 #include "uniptr.hpp"
+#include "wptr.hpp"
 #include "gtest/gtest.h"
 #include <utility>
 #include <vector>
@@ -84,4 +85,18 @@ TEST(UniPtr, move) {
 
   EXPECT_EQ(vsum(ptr2), vsum(ptr2));
   EXPECT_EQ(static_cast<std::vector<int>*>(ptr1), nullptr);
+}
+
+TEST(WPtr, ctor_shptr) {
+  auto ptr1 = make_shared<std::vector<int>>(10);
+  auto ptr2 = WPtr(ptr1);
+
+  EXPECT_EQ(ptr1->size(), ptr2.lock()->size());
+}
+
+TEST(WPtr, expired) {
+  auto ptr1 = make_shared<std::vector<int>>(10);
+  auto ptr2 = WPtr(ptr1);
+
+  EXPECT_EQ(ptr2.expired(), false);
 }

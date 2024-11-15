@@ -12,7 +12,7 @@ struct UniPtr final {
 
   UniPtr(detail::Block<T>* block)
       : _block(block) {
-    _block->counter = 1;
+    _block->shared_counter = 1;
   }
 
  public:
