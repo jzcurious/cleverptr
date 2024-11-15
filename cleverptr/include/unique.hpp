@@ -11,9 +11,7 @@ struct unique_ptr final {
   detail::Block<T>* _block;
 
   unique_ptr(detail::Block<T>* block)
-      : _block(block) {
-    _block->shared_counter = 1;
-  }
+      : _block(block) {}
 
  public:
   unique_ptr(const unique_ptr&) = delete;
