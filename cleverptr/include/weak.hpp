@@ -15,7 +15,7 @@ struct weak_ptr final {
   void _release_block() const {
     if (_block == nullptr) return;
     _block->weak_counter--;
-    if (not expired()) return;
+    if (_block->shared_counter) return;
     if (_block->weak_counter == 0) delete _block;
   }
 

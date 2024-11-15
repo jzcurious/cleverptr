@@ -20,10 +20,8 @@ struct shared_ptr final {
 
   void _release_block() const {
     if (_block == nullptr) return;
-    if (_block->shared_counter > 1) {
-      _block->shared_counter--;
-      return;
-    }
+    _block->shared_counter--;
+    if (_block->shared_counter) return;
     if (_block->weak_counter == 0) delete _block;
   }
 
