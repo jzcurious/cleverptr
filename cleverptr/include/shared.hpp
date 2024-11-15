@@ -71,8 +71,7 @@ struct shared_ptr final {
   }
 
   bool operator==(const shared_ptr& ptr) const {
-    if (ptr._block == _block) return true;
-    return false;
+    return ptr._block == _block;
   }
 
   bool operator!=(const shared_ptr& ptr) const {
