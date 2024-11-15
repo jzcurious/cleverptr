@@ -9,8 +9,8 @@ template <class T>
 struct shared_ptr;
 
 namespace detail {
-template <class U>
-Block<U>* get_block(const shared_ptr<U>& ptr);
+template <class T>
+Block<T>* get_block(const shared_ptr<T>& ptr);
 }
 
 template <class T>

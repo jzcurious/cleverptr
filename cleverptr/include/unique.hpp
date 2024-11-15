@@ -33,24 +33,24 @@ struct unique_ptr final {
     return *this;
   }
 
-  T* operator->() {
+  T* operator->() const {
     return &_block->object;
   }
 
-  T& operator*() {
+  T& operator*() const {
     return _block->object;
   }
 
-  operator T*() {
+  operator T*() const {
     if (_block == nullptr) return nullptr;
     return &_block->object;
   }
 
-  constexpr bool operator==(const unique_ptr&) {
+  constexpr bool operator==(const unique_ptr&) const {
     return false;
   }
 
-  constexpr bool operator!=(const unique_ptr&) {
+  constexpr bool operator!=(const unique_ptr&) const {
     return true;
   }
 
