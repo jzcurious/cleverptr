@@ -1,6 +1,6 @@
-#include "shptr.hpp"
-#include "uniptr.hpp"
-#include "wptr.hpp"
+#include "shared.hpp"
+#include "unique.hpp"
+#include "weak.hpp"
 #include "gtest/gtest.h"
 #include <utility>
 #include <vector>
@@ -13,14 +13,14 @@ static int vsum(const std::vector<int>* v) {
   return s;
 }
 
-TEST(ShPtr, copy_ctor) {
+TEST(shared_ptr, copy_ctor) {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = ptr1;
 
   EXPECT_EQ(ptr1->size(), ptr2->size());
 }
 
-TEST(ShPtr, move_ctor) {
+TEST(shared_ptr, move_ctor) {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = std::move(ptr1);
 
@@ -28,13 +28,13 @@ TEST(ShPtr, move_ctor) {
   EXPECT_EQ(static_cast<std::vector<int>*>(ptr1), nullptr);
 }
 
-TEST(ShPtr, indirection) {
+TEST(shared_ptr, indirection) {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = ptr1;
   for (unsigned i = 0; i < ptr1->size(); ++i) EXPECT_EQ((*ptr1)[i], (*ptr1)[i]);
 }
 
-TEST(ShPtr, assign) {
+TEST(shared_ptr, assign) {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = make_shared<std::vector<int>>(5);
   ptr2 = ptr1;
@@ -42,7 +42,7 @@ TEST(ShPtr, assign) {
   EXPECT_EQ(vsum(ptr1), vsum(ptr2));
 }
 
-TEST(ShPtr, move) {
+TEST(shared_ptr, move) {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = make_shared<std::vector<int>>(5);
   ptr2 = std::move(ptr1);
@@ -51,7 +51,7 @@ TEST(ShPtr, move) {
   EXPECT_EQ(static_cast<std::vector<int>*>(ptr1), nullptr);
 }
 
-TEST(ShPtr, comparison) {
+TEST(shared_ptr, comparison) {
   auto ptr1 = make_shared<std::vector<int>>(10);
   auto ptr2 = make_shared<std::vector<int>>(5);
   auto ptr3 = ptr1;
@@ -63,7 +63,7 @@ TEST(ShPtr, comparison) {
   EXPECT_EQ((ptr1 != ptr2), true);
 }
 
-TEST(UniPtr, move_ctor) {
+TEST(unique_ptr, move_ctor) {
   auto ptr1 = make_unique<std::vector<int>>(10);
   auto ptr2 = std::move(ptr1);
 
@@ -71,14 +71,14 @@ TEST(UniPtr, move_ctor) {
   EXPECT_EQ(ptr2->size(), 10);
 }
 
-TEST(UniPtr, indirection) {
+TEST(unique_ptr, indirection) {
   auto ptr1 = make_unique<std::vector<int>>(10);
   auto ptr2 = std::move(ptr1);
 
   for (unsigned i = 0; i < ptr2->size(); ++i) EXPECT_EQ((*ptr2)[i], (*ptr2)[i]);
 }
 
-TEST(UniPtr, move) {
+TEST(unique_ptr, move) {
   auto ptr1 = make_unique<std::vector<int>>(10);
   auto ptr2 = make_unique<std::vector<int>>(5);
   ptr2 = std::move(ptr1);
@@ -87,16 +87,16 @@ TEST(UniPtr, move) {
   EXPECT_EQ(static_cast<std::vector<int>*>(ptr1), nullptr);
 }
 
-TEST(WPtr, ctor_shptr) {
+TEST(weak_ptr, ctor_shptr) {
   auto ptr1 = make_shared<std::vector<int>>(10);
-  auto ptr2 = WPtr(ptr1);
+  auto ptr2 = weak_ptr(ptr1);
 
   EXPECT_EQ(ptr1->size(), ptr2.lock()->size());
 }
 
-TEST(WPtr, expired) {
+TEST(weak_ptr, expired) {
   auto ptr1 = make_shared<std::vector<int>>(10);
-  auto ptr2 = WPtr(ptr1);
+  auto ptr2 = weak_ptr(ptr1);
 
   EXPECT_EQ(ptr2.expired(), false);
 }

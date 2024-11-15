@@ -1,7 +1,7 @@
 #include "benchmark/benchmark.h"
-#include "shptr.hpp"
-#include "uniptr.hpp"
-#include "wptr.hpp"
+#include "shared.hpp"
+#include "unique.hpp"
+#include "weak.hpp"
 #include <memory>
 
 static void shared_std_swap(benchmark::State& state) {
@@ -71,9 +71,9 @@ static void weak_cleverptr_swap(benchmark::State& state) {
   auto ptr1 = cleverptr::make_shared<std::vector<float>>(100);
   auto ptr2 = cleverptr::make_shared<std::vector<float>>(100);
   auto ptr3 = cleverptr::make_shared<std::vector<float>>(100);
-  auto ptr4 = cleverptr::WPtr(ptr1);
-  auto ptr5 = cleverptr::WPtr(ptr2);
-  auto ptr6 = cleverptr::WPtr(ptr3);
+  auto ptr4 = cleverptr::weak_ptr(ptr1);
+  auto ptr5 = cleverptr::weak_ptr(ptr2);
+  auto ptr6 = cleverptr::weak_ptr(ptr3);
 
   for (auto _ : state) {
     benchmark::DoNotOptimize(ptr6 = std::move(ptr5));

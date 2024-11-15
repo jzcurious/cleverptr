@@ -1,15 +1,15 @@
-#ifndef _WPTR_HPP_
-#define _WPTR_HPP_
+#ifndef _CLEVERPTR_WEAK_PTR_HPP_
+#define _CLEVERPTR_WEAK_PTR_HPP_
 
 #include "block.hpp"
-#include "shptr.hpp"
+#include "shared.hpp"
 
 namespace cleverptr {
 
 template <class T>
-struct WPtr final {
+struct weak_ptr final {
  private:
-  const ShPtr<T>* _sptr;
+  const shared_ptr<T>* _sptr;
   detail::Block<T>* _block;
 
   void _release_block() const {
@@ -20,26 +20,26 @@ struct WPtr final {
   }
 
  public:
-  WPtr(const ShPtr<T>& sptr)
+  weak_ptr(const shared_ptr<T>& sptr)
       : _sptr(&sptr)
       , _block(detail::get_block(sptr)) {
     _block->weak_counter++;
   }
 
-  WPtr(const WPtr& ptr)
+  weak_ptr(const weak_ptr& ptr)
       : _sptr(ptr._sptr)
       , _block(ptr._block) {
     _block->weak_counter++;
   }
 
-  WPtr(WPtr&& ptr)
+  weak_ptr(weak_ptr&& ptr)
       : _sptr(ptr._sptr)
       , _block(ptr._block) {
     ptr._sptr = nullptr;
     ptr._block = nullptr;
   }
 
-  WPtr& operator=(const WPtr& ptr) {
+  weak_ptr& operator=(const weak_ptr& ptr) {
     if (this == &ptr) return *this;
     _sptr = ptr._sptr;
     _block = ptr._block;
@@ -47,7 +47,7 @@ struct WPtr final {
     return *this;
   }
 
-  WPtr& operator=(WPtr&& ptr) {
+  weak_ptr& operator=(weak_ptr&& ptr) {
     if (this == &ptr) return *this;
     _sptr = ptr._sptr;
     _block = ptr._block;
@@ -56,7 +56,7 @@ struct WPtr final {
     return *this;
   }
 
-  WPtr& operator=(const ShPtr<T>& sptr) {
+  weak_ptr& operator=(const shared_ptr<T>& sptr) {
     _sptr = &sptr;
     _block = detail::get_block(sptr);
     _block->weak_counter++;
@@ -67,16 +67,16 @@ struct WPtr final {
     return _block->shared_counter == 0;
   }
 
-  const ShPtr<T> lock() const {
+  const shared_ptr<T> lock() const {
     if (expired()) return *_sptr;
-    return ShPtr<T>(_block);
+    return shared_ptr<T>(_block);
   }
 
-  ~WPtr() {
+  ~weak_ptr() {
     _release_block();
   }
 };
 
 }  // namespace cleverptr
 
-#endif  // _WPTR_HPP_
+#endif  // _CLEVERPTR_WEAK_PTR_HPP_

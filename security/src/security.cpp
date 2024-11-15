@@ -1,6 +1,6 @@
-#include "shptr.hpp"
-#include "uniptr.hpp"
-#include "wptr.hpp"
+#include "shared.hpp"
+#include "unique.hpp"
+#include "weak.hpp"
 
 #include <vector>
 
@@ -48,19 +48,19 @@ void unique_move() {
 
 void wptr_copy_ctor() {
   auto ptr1 = make_shared<std::vector<int>>(10);
-  auto ptr2 = WPtr(ptr1);
-  auto ptr3 = WPtr(ptr2);
+  auto ptr2 = weak_ptr(ptr1);
+  auto ptr3 = weak_ptr(ptr2);
 }
 
 void wptr_move_ctor() {
   auto ptr1 = make_shared<std::vector<int>>(10);
-  auto ptr2 = WPtr(ptr1);
-  auto ptr3 = WPtr(std::move(ptr2));
+  auto ptr2 = weak_ptr(ptr1);
+  auto ptr3 = weak_ptr(std::move(ptr2));
 }
 
 void wptr_ctor_from_shared() {
   auto ptr1 = make_shared<std::vector<int>>(10);
-  auto ptr2 = WPtr(ptr1);
+  auto ptr2 = weak_ptr(ptr1);
 }
 
 int main() {

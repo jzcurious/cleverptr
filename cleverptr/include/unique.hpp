@@ -1,31 +1,31 @@
-#ifndef _UNIPTR_HPP_
-#define _UNIPTR_HPP_
+#ifndef _CLEVERPTR_UNIQUE_PTR_HPP_
+#define _CLEVERPTR_UNIQUE_PTR_HPP_
 
 #include "block.hpp"
 
 namespace cleverptr {
 
 template <class T>
-struct UniPtr final {
+struct unique_ptr final {
  private:
   detail::Block<T>* _block;
 
-  UniPtr(detail::Block<T>* block)
+  unique_ptr(detail::Block<T>* block)
       : _block(block) {
     _block->shared_counter = 1;
   }
 
  public:
-  UniPtr(const UniPtr&) = delete;
+  unique_ptr(const unique_ptr&) = delete;
 
-  UniPtr(UniPtr&& ptr)
+  unique_ptr(unique_ptr&& ptr)
       : _block(ptr._block) {
     ptr._block = nullptr;
   }
 
-  UniPtr& operator=(const UniPtr&) = delete;
+  unique_ptr& operator=(const unique_ptr&) = delete;
 
-  UniPtr& operator=(UniPtr&& ptr) {
+  unique_ptr& operator=(unique_ptr&& ptr) {
     if (this == &ptr) return *this;
     if (_block) delete _block;
     _block = ptr._block;
@@ -46,29 +46,29 @@ struct UniPtr final {
     return &_block->object;
   }
 
-  constexpr bool operator==(const UniPtr&) {
+  constexpr bool operator==(const unique_ptr&) {
     return false;
   }
 
-  constexpr bool operator!=(const UniPtr&) {
+  constexpr bool operator!=(const unique_ptr&) {
     return true;
   }
 
-  ~UniPtr() {
+  ~unique_ptr() {
     if (_block) delete _block;
   }
 
   template <class... Ts>
-  static UniPtr make(Ts&&... args) {
-    return UniPtr(new detail::Block<T>(std::forward<Ts>(args)...));
+  static unique_ptr make(Ts&&... args) {
+    return unique_ptr(new detail::Block<T>(std::forward<Ts>(args)...));
   }
 };
 
 template <class T, class... Ts>
 auto make_unique(Ts&&... args) {
-  return UniPtr<T>::make(std::forward<Ts>(args)...);
+  return unique_ptr<T>::make(std::forward<Ts>(args)...);
 }
 
 }  // namespace cleverptr
 
-#endif  // _UNIPTR_HPP_
+#endif  // _CLEVERPTR_UNIQUE_PTR_HPP_
