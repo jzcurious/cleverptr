@@ -1,6 +1,6 @@
-#include "shared.hpp"
-#include "unique.hpp"
-#include "weak.hpp"
+#include "cleverptr/shared.hpp"
+#include "cleverptr/unique.hpp"
+#include "cleverptr/weak.hpp"
 
 #include <vector>
 

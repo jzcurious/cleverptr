@@ -15,10 +15,7 @@ add_executable(cleverptr-benchmarks
     ${CMAKE_CURRENT_SOURCE_DIR}/src/benchmarks.cpp
 )
 
-target_include_directories(cleverptr-benchmarks PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../cleverptr/include
-)
-
 target_link_libraries(cleverptr-benchmarks PRIVATE
+    cleverptr
     benchmark::benchmark
 )

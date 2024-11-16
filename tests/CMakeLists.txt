@@ -16,11 +16,8 @@ add_executable(cleverptr-tests
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tests.cpp
 )
 
-target_include_directories(cleverptr-tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../cleverptr/include
-)
-
 target_link_libraries(cleverptr-tests PRIVATE
+    cleverptr
     GTest::gtest_main
 )
 
